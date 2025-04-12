@@ -16,20 +16,20 @@ def save_audio(URLS, s3_bucket, s3_key_prefix=""):
         aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
         aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
     )
+    cookie_path = "/etc/secrets/cookies.txt"
     try:
         # Create a temporary directory; files here will be cleaned up once done.
         with tempfile.TemporaryDirectory() as tmpdirname:
             # Set yt-dlp options to store the file in the temporary directory
             ydl_opts = {
                 'format': 'm4a/bestaudio/best',
+                'cookiefile': cookie_path,
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0', 
                 'outtmpl': os.path.join(tmpdirname, '%(id)s.%(ext)s'),
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'm4a',
-                }],
-                'http_headers': {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-                }
+                }]
             }
 
             # Download the file using yt-dlp
