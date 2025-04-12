@@ -26,7 +26,10 @@ def save_audio(URLS, s3_bucket, s3_key_prefix=""):
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'm4a',
-                }]
+                }],
+                'http_headers': {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
+                }
             }
 
             # Download the file using yt-dlp
